@@ -1,48 +1,789 @@
-<!DOCTYPE html>
+from pathlib import Path
+
+html = r"""<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ORBIT - Privacy Policy</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#050505" />
+
+  <title>ORBIT — Privacy Policy</title>
+  <meta
+    name="description"
+    content="Privacy Policy for ORBIT, developed and published by Kryvers."
+  />
+
+  <style>
+    :root {
+      --bg: #050505;
+      --panel: #0d0d0d;
+      --panel-2: #111111;
+      --text: #f5f5f5;
+      --muted: #9c9c9c;
+      --line: #262626;
+      --line-strong: #3a3a3a;
+      --white: #ffffff;
+      --black: #000000;
+      --max-width: 1180px;
+      --radius: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 50% -10%, rgba(255,255,255,0.08), transparent 28rem),
+        linear-gradient(180deg, #060606 0%, #030303 100%);
+      color: var(--text);
+      font-family:
+        Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      line-height: 1.72;
+      letter-spacing: -0.01em;
+    }
+
+    ::selection {
+      background: var(--white);
+      color: var(--black);
+    }
+
+    a {
+      color: var(--white);
+      text-decoration-color: #707070;
+      text-underline-offset: 4px;
+    }
+
+    a:hover {
+      text-decoration-color: var(--white);
+    }
+
+    .page {
+      width: min(calc(100% - 32px), var(--max-width));
+      margin: 0 auto;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 480px;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      width: min(calc(100% - 32px), var(--max-width));
+      margin: 0 auto;
+      padding: 96px 0 64px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 22px;
+      color: #bdbdbd;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: #7a7a7a;
+    }
+
+    h1 {
+      max-width: 800px;
+      font-size: clamp(3.5rem, 9vw, 7.8rem);
+      line-height: 0.9;
+      letter-spacing: -0.075em;
+      font-weight: 800;
+    }
+
+    .hero-sub {
+      margin-top: 24px;
+      max-width: 620px;
+      color: #b4b4b4;
+      font-size: clamp(1rem, 2vw, 1.15rem);
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      padding: 8px 12px;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.025);
+      color: #d5d5d5;
+      font-size: 0.78rem;
+    }
+
+    .orbit-art {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.8;
+    }
+
+    .orbit {
+      position: absolute;
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 50%;
+    }
+
+    .orbit.one {
+      width: 560px;
+      height: 560px;
+      right: -180px;
+      top: -120px;
+    }
+
+    .orbit.two {
+      width: 410px;
+      height: 410px;
+      right: -105px;
+      top: -45px;
+    }
+
+    .orbit.three {
+      width: 265px;
+      height: 265px;
+      right: -32px;
+      top: 28px;
+    }
+
+    .orbit.four {
+      width: 124px;
+      height: 124px;
+      right: 38px;
+      top: 98px;
+      border-color: rgba(255,255,255,0.22);
+      box-shadow:
+        0 0 60px rgba(255,255,255,0.055),
+        inset 0 0 35px rgba(255,255,255,0.025);
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 250px minmax(0, 1fr);
+      gap: 56px;
+      padding: 64px 0 92px;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 28px;
+      align-self: start;
+    }
+
+    .sidebar-title {
+      margin-bottom: 14px;
+      color: #777;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .sidebar nav {
+      display: grid;
+      gap: 4px;
+    }
+
+    .sidebar a {
+      padding: 8px 10px;
+      border-left: 1px solid transparent;
+      color: #8f8f8f;
+      text-decoration: none;
+      font-size: 0.84rem;
+      transition: 160ms ease;
+    }
+
+    .sidebar a:hover {
+      border-left-color: var(--white);
+      color: var(--white);
+      transform: translateX(3px);
+    }
+
+    .policy {
+      min-width: 0;
+    }
+
+    .intro-card {
+      margin-bottom: 28px;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.045), rgba(255,255,255,0.01));
+    }
+
+    .intro-card p + p {
+      margin-top: 12px;
+    }
+
+    .section {
+      padding: 34px 0;
+      border-bottom: 1px solid var(--line);
+      scroll-margin-top: 28px;
+    }
+
+    .section:last-child {
+      border-bottom: 0;
+    }
+
+    h2 {
+      margin-bottom: 16px;
+      color: var(--white);
+      font-size: clamp(1.35rem, 2.5vw, 1.8rem);
+      line-height: 1.25;
+      letter-spacing: -0.035em;
+    }
+
+    p {
+      color: #c8c8c8;
+    }
+
+    p + p {
+      margin-top: 14px;
+    }
+
+    ul {
+      margin: 16px 0 0 20px;
+      color: #c8c8c8;
+    }
+
+    li {
+      margin: 7px 0;
+      padding-left: 5px;
+    }
+
+    li::marker {
+      color: #727272;
+    }
+
+    .note {
+      margin-top: 18px;
+      padding: 16px 18px;
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--white);
+      border-radius: 10px;
+      background: #0a0a0a;
+      color: #bfbfbf;
+      font-size: 0.92rem;
+    }
+
+    .contact-card {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: center;
+      margin-top: 22px;
+      padding: 22px;
+      border: 1px solid var(--line-strong);
+      border-radius: 16px;
+      background: var(--panel-2);
+    }
+
+    .contact-label {
+      color: #808080;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .contact-value {
+      margin-top: 4px;
+      color: var(--white);
+      font-weight: 700;
+      word-break: break-word;
+    }
+
+    .contact-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 16px;
+      border: 1px solid var(--white);
+      border-radius: 999px;
+      background: var(--white);
+      color: var(--black);
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-decoration: none;
+      transition: 160ms ease;
+    }
+
+    .contact-button:hover {
+      background: transparent;
+      color: var(--white);
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 28px 0 44px;
+      color: #707070;
+      font-size: 0.8rem;
+    }
+
+    .footer-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .back-top {
+      color: #9a9a9a;
+      text-decoration: none;
+    }
+
+    .back-top:hover {
+      color: var(--white);
+    }
+
+    @media (max-width: 880px) {
+      .hero {
+        min-height: 410px;
+      }
+
+      .content-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        padding-top: 36px;
+      }
+
+      .sidebar {
+        position: static;
+        padding-bottom: 22px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .sidebar nav {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .sidebar a {
+        border-left: 0;
+        border-bottom: 1px solid #171717;
+        padding-left: 0;
+      }
+
+      .sidebar a:hover {
+        transform: none;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .page,
+      .hero-inner {
+        width: min(calc(100% - 22px), var(--max-width));
+      }
+
+      .hero-inner {
+        padding: 72px 0 44px;
+      }
+
+      h1 {
+        font-size: clamp(3.2rem, 20vw, 5rem);
+      }
+
+      .sidebar nav {
+        grid-template-columns: 1fr;
+      }
+
+      .intro-card {
+        padding: 20px;
+      }
+
+      .section {
+        padding: 28px 0;
+      }
+
+      .contact-card {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-button {
+        width: 100%;
+      }
+
+      .orbit.one {
+        right: -360px;
+      }
+
+      .orbit.two {
+        right: -270px;
+      }
+
+      .orbit.three {
+        right: -185px;
+      }
+
+      .orbit.four {
+        right: -88px;
+      }
+    }
+  </style>
 </head>
-<body>
-  <h1>Privacy Policy for ORBIT</h1>
 
-  <p>Last updated: October 5, 2026</p>
+<body id="top">
+  <header class="hero">
+    <div class="orbit-art" aria-hidden="true">
+      <div class="orbit one"></div>
+      <div class="orbit two"></div>
+      <div class="orbit three"></div>
+      <div class="orbit four"></div>
+    </div>
 
-  <h2>Data Collection</h2>
-  <p>
-    ORBIT does not collect, store, transmit, or share personal information
-    or sensitive user data.
-  </p>
+    <div class="hero-inner">
+      <div class="eyebrow">Kryvers · Legal</div>
+      <h1>Privacy<br />Policy</h1>
 
-  <h2>Local Data</h2>
-  <p>
-    Game progress and preferences may be stored locally on the user's device.
-    This information is not transmitted to the developer or third parties.
-  </p>
+      <p class="hero-sub">
+        Privacy information for <strong>ORBIT</strong>, including local game data,
+        advertising services, consent choices, and third-party processing.
+      </p>
 
-  <h2>Analytics and Advertising</h2>
-  <p>
-    ORBIT currently does not use analytics services, advertising services,
-    or third-party tracking technologies.
-  </p>
+      <div class="meta-row">
+        <span class="pill">ORBIT</span>
+        <span class="pill">Google AdMob</span>
+        <span class="pill">Google UMP</span>
+        <span class="pill">Effective October 9, 2026</span>
+      </div>
+    </div>
+  </header>
 
-  <h2>Children's Privacy</h2>
-  <p>
-    ORBIT does not knowingly collect personal information from children.
-  </p>
+  <main class="page">
+    <div class="content-grid">
+      <aside class="sidebar">
+        <div class="sidebar-title">Contents</div>
+        <nav aria-label="Privacy Policy sections">
+          <a href="#information">01 · Information</a>
+          <a href="#advertising">02 · Advertising</a>
+          <a href="#rewarded">03 · Rewarded ads</a>
+          <a href="#consent">04 · Consent</a>
+          <a href="#local-data">05 · Local data</a>
+          <a href="#sharing">06 · Data sharing</a>
+          <a href="#third-party">07 · Third parties</a>
+          <a href="#security">08 · Security</a>
+          <a href="#retention">09 · Retention</a>
+          <a href="#deletion">10 · Deletion</a>
+          <a href="#children">11 · Children</a>
+          <a href="#international">12 · International</a>
+          <a href="#changes">13 · Changes</a>
+          <a href="#contact">14 · Contact</a>
+        </nav>
+      </aside>
 
-  <h2>Changes to This Privacy Policy</h2>
-  <p>
-    If ORBIT's data practices change in a future version, this Privacy Policy
-    will be updated accordingly.
-  </p>
+      <article class="policy">
+        <div class="intro-card">
+          <p>
+            This Privacy Policy explains how information may be collected, used,
+            processed, and shared when you use <strong>ORBIT</strong>, developed
+            and published by <strong>Kryvers</strong>.
+          </p>
+          <p>
+            By downloading, accessing, or using ORBIT, you acknowledge the
+            practices described in this Privacy Policy.
+          </p>
+        </div>
 
-  <h2>Contact</h2>
-  <p>
-    For questions about this Privacy Policy, contact:
-    chadi.prive@gmail.com
-  </p>
+        <section class="section" id="information">
+          <h2>1. Information collected directly by ORBIT</h2>
+          <p>ORBIT does not require you to create an account.</p>
+          <p>
+            Kryvers does not directly ask you to provide personal information
+            such as your name, postal address, phone number, payment card
+            information, or other similar information in order to play the game.
+          </p>
+          <p>ORBIT may store gameplay information locally on your device, including:</p>
+          <ul>
+            <li>high scores and best scores;</li>
+            <li>gameplay progress and statistics;</li>
+            <li>tutorial completion status;</li>
+            <li>game settings and preferences;</li>
+            <li>advertising-related reward or usage counters where applicable.</li>
+          </ul>
+          <p>
+            This information is primarily used to preserve your game progress,
+            preferences, and gameplay experience.
+          </p>
+        </section>
+
+        <section class="section" id="advertising">
+          <h2>2. Advertising</h2>
+          <p>
+            ORBIT uses <strong>Google AdMob / Google Mobile Ads</strong> to display
+            advertisements.
+          </p>
+          <p>The game may include:</p>
+          <ul>
+            <li>rewarded video advertisements;</li>
+            <li>interstitial advertisements.</li>
+          </ul>
+          <p>
+            Google and its advertising technologies may automatically collect or
+            process certain information when advertisements are requested,
+            displayed, or interacted with.
+          </p>
+          <p>This may include information such as:</p>
+          <ul>
+            <li>IP address and approximate location derived from it;</li>
+            <li>device information;</li>
+            <li>advertising identifiers;</li>
+            <li>app interactions;</li>
+            <li>advertisement views and interactions;</li>
+            <li>diagnostic information;</li>
+            <li>performance information;</li>
+            <li>information used for fraud prevention and security.</li>
+          </ul>
+          <p>
+            Google may use this information for purposes including advertising,
+            analytics, measurement, security, and fraud prevention.
+          </p>
+          <div class="note">
+            More information:
+            <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">
+              Google Privacy Policy
+            </a>
+          </div>
+        </section>
+
+        <section class="section" id="rewarded">
+          <h2>3. Rewarded advertisements</h2>
+          <p>
+            ORBIT may allow users to voluntarily watch rewarded advertisements in
+            exchange for in-game benefits.
+          </p>
+          <p>Depending on the feature, a rewarded advertisement may allow the player to:</p>
+          <ul>
+            <li>continue a run after a game over;</li>
+            <li>receive another in-game benefit associated with the advertised feature.</li>
+          </ul>
+          <p>Rewarded advertisements are optional.</p>
+          <p>
+            In-game rewards are granted only after the advertising provider
+            confirms that the required rewarded advertisement interaction has
+            been completed successfully.
+          </p>
+        </section>
+
+        <section class="section" id="consent">
+          <h2>4. Consent and advertising preferences</h2>
+          <p>
+            Where required by applicable law, ORBIT may display a consent message
+            before certain advertising technologies are used.
+          </p>
+          <p>
+            ORBIT may use <strong>Google's User Messaging Platform (UMP)</strong>
+            to present advertising consent choices to users in regions where such
+            consent is required.
+          </p>
+          <p>
+            Depending on your location, applicable law, and choices,
+            advertisements may be personalized or non-personalized.
+          </p>
+        </section>
+
+        <section class="section" id="local-data">
+          <h2>5. Local game data</h2>
+          <p>
+            ORBIT stores certain game progress and preferences locally on the
+            user's device.
+          </p>
+          <p>This local information may include:</p>
+          <ul>
+            <li>best scores;</li>
+            <li>gameplay statistics;</li>
+            <li>tutorial status;</li>
+            <li>game settings and preferences;</li>
+            <li>advertising-related gameplay counters where applicable.</li>
+          </ul>
+          <p>
+            Kryvers does not currently operate an ORBIT user account system or a
+            remote user account database for gameplay progression.
+          </p>
+        </section>
+
+        <section class="section" id="sharing">
+          <h2>6. Data sharing</h2>
+          <p>
+            Kryvers does not sell personal information collected directly through ORBIT.
+          </p>
+          <p>
+            Certain information may be processed or shared by third-party services
+            used by the game, including Google AdMob and related Google services.
+          </p>
+          <p>These third-party services may process information for purposes such as:</p>
+          <ul>
+            <li>advertising;</li>
+            <li>analytics and measurement;</li>
+            <li>service operation;</li>
+            <li>security;</li>
+            <li>fraud prevention.</li>
+          </ul>
+        </section>
+
+        <section class="section" id="third-party">
+          <h2>7. Third-party services</h2>
+          <p>ORBIT may use services provided by third parties, including:</p>
+          <ul>
+            <li>Google AdMob / Google Mobile Ads;</li>
+            <li>Google User Messaging Platform (UMP);</li>
+            <li>Google Play services where applicable.</li>
+          </ul>
+          <p>
+            These services are governed by their own privacy policies and terms.
+          </p>
+        </section>
+
+        <section class="section" id="security">
+          <h2>8. Data security</h2>
+          <p>
+            Kryvers takes reasonable measures to protect information handled
+            directly by the game.
+          </p>
+          <p>
+            Third-party providers used by ORBIT are responsible for the security
+            practices applicable to information they process.
+          </p>
+          <p>
+            No method of electronic storage or transmission can be guaranteed to
+            be completely secure.
+          </p>
+        </section>
+
+        <section class="section" id="retention">
+          <h2>9. Data retention</h2>
+          <p>
+            Locally stored game information remains on your device until it is
+            removed, overwritten, the application's data is cleared, or the game
+            is uninstalled.
+          </p>
+          <p>
+            Information processed by third-party services is retained according
+            to the policies and retention practices of those providers.
+          </p>
+        </section>
+
+        <section class="section" id="deletion">
+          <h2>10. Data deletion</h2>
+          <p>
+            Because ORBIT currently does not use player accounts, there is no
+            server-side ORBIT account to delete.
+          </p>
+          <p>You can generally remove locally stored ORBIT information by:</p>
+          <ul>
+            <li>clearing the application's storage through your device settings;</li>
+            <li>uninstalling ORBIT.</li>
+          </ul>
+          <p>
+            Requests or controls relating to information processed by Google
+            services are subject to Google's own tools and privacy policies.
+          </p>
+        </section>
+
+        <section class="section" id="children">
+          <h2>11. Children's privacy</h2>
+          <p>
+            ORBIT is not specifically designed or directed toward children under
+            the minimum age required for independent consent in their country or region.
+          </p>
+          <p>
+            Kryvers does not knowingly request personal information directly from
+            children through ORBIT.
+          </p>
+          <p>
+            If the target audience, advertising configuration, or applicable
+            requirements change, this Privacy Policy may be updated.
+          </p>
+        </section>
+
+        <section class="section" id="international">
+          <h2>12. International users</h2>
+          <p>
+            ORBIT may be available to users in multiple countries. Information
+            processed by third-party providers may be transferred or processed in
+            countries other than the country in which you live, subject to the
+            safeguards and policies of those providers.
+          </p>
+        </section>
+
+        <section class="section" id="changes">
+          <h2>13. Changes to this Privacy Policy</h2>
+          <p>
+            Kryvers may update this Privacy Policy when ORBIT, its features,
+            advertising services, third-party SDKs, or applicable legal
+            requirements change.
+          </p>
+          <p>Any updated version will be published on this page.</p>
+          <p>
+            The effective date shown at the top of this Privacy Policy will be
+            updated when material changes are made.
+          </p>
+        </section>
+
+        <section class="section" id="contact">
+          <h2>14. Contact</h2>
+          <p>
+            If you have any questions regarding this Privacy Policy or the privacy
+            practices of ORBIT, you may contact Kryvers using the address below.
+          </p>
+
+          <div class="contact-card">
+            <div>
+              <div class="contact-label">Privacy contact</div>
+              <div class="contact-value">chadi.prive@gmail.com</div>
+            </div>
+            <a class="contact-button" href="mailto:chadi.prive@gmail.com">
+              Contact Kryvers
+            </a>
+          </div>
+
+          <div class="note">
+            <strong>Developer:</strong> Kryvers<br />
+            <strong>Application:</strong> ORBIT<br />
+            <strong>Effective date:</strong> October 9, 2026
+          </div>
+        </section>
+      </article>
+    </div>
+  </main>
+
+  <footer>
+    <div class="page footer-row">
+      <span>© 2026 Kryvers. All rights reserved.</span>
+      <a class="back-top" href="#top">Back to top ↑</a>
+    </div>
+  </footer>
 </body>
 </html>
+"""
+
+path = Path("/mnt/data/orbit-privacy-index.html")
+path.write_text(html, encoding="utf-8")
+print(path)
